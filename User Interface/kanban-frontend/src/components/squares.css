@@ -1,0 +1,27 @@
+
+.square {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: fall 5s infinite linear, rotate 5s infinite linear; 
+    border-radius: 5px;
+}
+
+/* Animacja spadających kwadratów */
+@keyframes fall {
+    0% {
+        top: -20px; /* Kwadrat zaczyna na górze */
+    }
+    100% {
+        top: 100vh; /* Kwadrat opada na dół ekranu */
+    }
+}
+
+/* Animacja obrotu */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg); /* Na początku kwadrat nie jest obrócony */
+    }
+    100% {
+        transform: rotate(360deg); /* Na końcu kwadrat zrobi pełen obrót */
+    }
+}

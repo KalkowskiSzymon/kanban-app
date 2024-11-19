@@ -1,0 +1,102 @@
+/* Ogólne style dla formularza logowania */
+.login-container {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    width: 100%;
+    max-width: 400px;
+    margin: 0 auto;
+    position: relative; /* Umożliwia dodanie kwadratów w tle */
+    z-index: 10; /* Zapewnia, że formularz jest na wierzchu kwadratów */
+}
+
+.login-container h2 {
+    font-size: 1.8rem;
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+input {
+    width: 100%;
+    padding: 0.8rem;
+    margin: 0.6rem 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+input:focus {
+    border-color: #5c6bc0;
+    outline: none;
+}
+
+button {
+    width: 100%;
+    padding: 0.8rem;
+    background-color: #5c6bc0;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    margin-top: 1rem;
+}
+
+button:hover {
+    background-color: #3f51b5;
+}
+
+.error-message {
+    color: #f44336;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.login-container p {
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1.5rem;
+}
+
+.login-container a {
+    color: #5c6bc0;
+    text-decoration: none;
+}
+
+.login-container a:hover {
+    text-decoration: underline;
+}
+
+
+/* Zapewnienie tła dla całej strony */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(to right, #6a11cb, #2575fc); /* Gradient od fioletowego do niebieskiego */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    overflow: hidden; /* Zapobieganie przewijaniu */
+}
+
+
+
+.error-message {
+    background-color: rgba(244, 67, 54, 0.2); /* Czerwonawe tło z przezroczystością */
+    color: black; /* Czarny tekst */
+    font-size: 0.9rem;
+    margin-top: 1rem;
+    text-align: center;
+    border: 1px solid rgba(244, 67, 54, 0.5); /* Subtelne obramowanie */
+    border-radius: 5px; /* Zaokrąglenie rogów */
+    padding: 0.8rem; /* Wewnętrzne odstępy */
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto; /* Wyśrodkowanie komunikatu */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Lekki cień */
+}
