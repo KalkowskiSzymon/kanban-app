@@ -1,0 +1,61 @@
+# Node.js dependencies
+node_modules/
+
+# build folder
+build/
+dist/
+
+# logi
+*.log
+
+# pliki konfiguracji IDE
+.vscode/
+.idea/
+
+# pliki systemowe
+.DS_Store
+Thumbs.db
+
+# pliki środowiskowe
+.env
+
+# Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environment folders
+env/
+venv/
+envs/
+.venv/
+.idea/
+.vscode/
+
+# Environment variable files
+.env
+
+# Log files
+*.log
+
+# Database files
+*.sqlite3
+*.db
+
+# Distribution / packaging
+dist/
+build/
+*.egg-info/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# Coverage reports
+.coverage
+.coverage.*
+*.cover
+
+# Test reports
+nosetests.xml
+test*.xml
