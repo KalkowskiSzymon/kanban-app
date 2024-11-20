@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from authlib.jose import JsonWebToken
+from config import Config
 import datetime
 import base64
 import os
@@ -17,7 +18,7 @@ class UserModel:
         self.users_collection = self.db['users']
         self.bcrypt = Bcrypt()
         self.jwt = JsonWebToken({'alg': 'HS256'})  # Initialize Authlib JWT
-        self.secret_key = 'mysecretkey'  # Secret key for signing JWTs
+        self.secret_key = Config.SECRET_KEY # Secret key for signing JWTs
 
     def register_user(self, username, password, email, role='user'):
         """
