@@ -1,16 +1,37 @@
 // src/pages/Home.js
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import SquaresBackground from "../../components/SquaresBackground"; // Importujemy komponent SquaresBackground
+import ToastNotification from "../../components/ToastNotification"; // Importujemy nasz toast
 import "./home.css"; // Dodajemy odpowiednie style
 
 const Home = () => {
     const navigate = useNavigate();
+    const [successMessage, setSuccessMessage] = useState(""); // Stan przechowujący komunikat o sukcesie
+    const [showToast, setShowToast] = useState(false); // Stan do kontrolowania widoczności toasta
 
+    // Obsługuje wylogowanie użytkownika
     const handleLogout = () => {
         localStorage.removeItem("token"); // Usuń token z lokalStorage
         navigate("/login"); // Przekieruj na stronę logowania
     };
+
+    // Gdy komponent się załaduje, sprawdzamy, czy mamy komunikat sukcesu w localStorage
+    useEffect(() => {
+        const message = localStorage.getItem("successMessage");
+        if (message) {
+            setSuccessMessage(message);
+            setShowToast(true); // Pokaż toast
+
+            // Usuwamy komunikat z localStorage po wyświetleniu
+            localStorage.removeItem("successMessage");
+
+            // Ustawiamy timer do zamknięcia toasta po 5 sekundach
+            setTimeout(() => {
+                setShowToast(false);
+            }, 5000);
+        }
+    }, []);
 
     return (
         <div className="home-container">
@@ -32,6 +53,9 @@ const Home = () => {
                 <h3>Witaj w systemie zarządzania zadaniami!</h3>
                 <p>Wybierz zakładkę, aby rozpocząć.</p>
             </div>
+
+            {/* Wyświetlamy ToastNotification, jeśli showToast jest true */}
+            {showToast && <ToastNotification message={successMessage} onClose={() => setShowToast(false)} />}
         
             {/* Zakładki */}
             <div className="tabs">

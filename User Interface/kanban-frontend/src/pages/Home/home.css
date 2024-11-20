@@ -167,3 +167,10 @@
         transform: rotate(360deg); /* Na końcu kwadrat zrobi pełen obrót */
     }
 }
+
+.success-message {
+    color: green;
+    font-weight: bold;
+    margin-top: 10px;
+    font-size: 16px;
+}

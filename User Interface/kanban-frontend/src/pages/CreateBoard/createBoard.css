@@ -17,6 +17,8 @@
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     margin-right: 200px;
+    z-index: 10;
+    position: relative; /* Umożliwia dodanie kwadratów w tle */
     
 }
 .create-board-container h2 {
@@ -61,3 +63,4 @@
 .create-board-form button:hover {
     background-color: #303f9f;
 }
+

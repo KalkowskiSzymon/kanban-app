@@ -44,11 +44,16 @@ const CreateBoard = () => {
             );
 
             if (response.status === 201) {
-                // Jeśli odpowiedź jest pozytywna, przekierowujemy na stronę listy tablic
-                setTitle(""); // Resetujemy formularz po udanym zapisaniu
+                // Jeśli odpowiedź jest pozytywna, zapisujemy komunikat o sukcesie do localStorage
+                localStorage.setItem("successMessage", "Tablica została pomyślnie dodana!");
+
+                // Resetujemy formularz po udanym zapisaniu
+                setTitle("");
                 setDescription("");
                 setColor("#ffffff");
-                navigate("/"); // Przekierowanie na stronę główną
+
+                // Przekierowanie na stronę główną
+                navigate("/");
             } else {
                 setError("Nie udało się utworzyć tablicy. Spróbuj ponownie.");
             }

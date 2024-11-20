@@ -5,7 +5,8 @@ import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
 import CreateBoard from "./pages/CreateBoard/CreateBoard"; // Importowanie strony do tworzenia tablicy
 import SquaresBackground from "./components/SquaresBackground"; // Importujemy komponent kwadratów
-import BoardsList from "./pages/BoardsList/BoardsList";
+import BoardsList from "./pages/BoardsList/BoardsList"; // Import strony z listą tablic
+
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -20,36 +21,38 @@ const App = () => {
     return (
         <Router>
             <Routes>
-                {/* Zabezpieczenie przed dostępem do stron, gdy użytkownik nie jest zalogowany */}
+                {/* Strona główna, dostępna tylko po zalogowaniu */}
                 <Route 
                     path="/" 
                     element={isAuthenticated ? <Home /> : <Navigate to="/login" />} 
-                /> {/* Strona główna, jeśli zalogowany */}
+                />
 
                 {/* Strony dostępne tylko dla niezalogowanych */}
                 <Route 
                     path="/login" 
                     element={<><SquaresBackground /> <Login /> </>} 
-                /> {/* Strona logowania z animacją */}
+                />
                 <Route 
                     path="/register" 
                     element={<><SquaresBackground /> <Register /> </>} 
-                /> {/* Strona rejestracji z animacją */}
+                />
 
-                {/* Strona główna, dostępna tylko po zalogowaniu */}
+                {/* Strona główna */}
                 <Route 
                     path="/home" 
                     element={isAuthenticated ? <Home /> : <Navigate to="/login" />} 
                 />
 
-                {/* Strona do tworzenia tablicy, dostępna tylko po zalogowaniu */}
+                {/* Strona do tworzenia tablicy */}
                 <Route 
                     path="/create-board" 
-                    element={isAuthenticated ? <CreateBoard /> : <Navigate to="/login" />} 
+                    element={isAuthenticated ? <><SquaresBackground /> <CreateBoard /> </> : <Navigate to="/login" />} 
                 />
-                <Route
-                    path="/boards-list"
-                    element={isAuthenticated ? <BoardsList /> : <Navigate to="/login" />}
+
+                {/* Strona z listą tablic */}
+                <Route 
+                    path="/boards-list" 
+                    element={isAuthenticated ? <><SquaresBackground /> <BoardsList /> </> : <Navigate to="/login" />} 
                 />
             </Routes>
         </Router>
