@@ -1,0 +1,63 @@
+/* src/pages/CreateBoard/createBoard.css */
+
+.create-board-wrapper {
+    display: flex;
+    justify-content: center; /* Wyśrodkowanie poziome */
+    align-items: center;     /* Wyśrodkowanie pionowe */
+    height: 100vh;           /* Wysokość 100% wysokości okna przeglądarki */
+    width: 100%;             /* Szerokość 100% */
+    padding: 0 20px;         /* Dodatkowe paddingi, jeśli chcesz mieć przestrzeń z boków */
+}
+
+.create-board-container {
+    width: 100%;             /* Przestrzeń do wykorzystania w kontenerze */
+    max-width: 800px;        /* Maksymalna szerokość */
+    padding: 20px;
+    background-color: #f4f7fc;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-right: 200px;
+    
+}
+.create-board-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.create-board-form .form-group {
+    margin-bottom: 20px;
+}
+
+.create-board-form .form-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.create-board-form input[type="text"],
+.create-board-form textarea,
+.create-board-form input[type="color"] {
+    width: 100%;
+    padding: px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.create-board-form textarea {
+    height: 100px;
+}
+
+.create-board-form button {
+    width: 100%;
+    padding: 10px;
+    background-color: #3f51b5;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.create-board-form button:hover {
+    background-color: #303f9f;
+}

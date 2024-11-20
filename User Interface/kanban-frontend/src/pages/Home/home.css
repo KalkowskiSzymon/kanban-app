@@ -1,52 +1,169 @@
-/* Stylizacja strony głównej */
-body {
-    margin: 0;
-    padding: 0;
-    font-family: 'Arial', sans-serif;
-    background: linear-gradient(to right, #6a11cb, #2575fc);  /* Gradient niebieski */
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
 .home-container {
-    text-align: center;
-    background-color: rgba(255, 255, 255, 0.9); /* Lekko przezroczyste tło */
-    padding: 2rem;
-    border-radius: 10px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-    max-width: 500px;
-    width: 90%;
+    font-family: Arial, sans-serif;
+    padding-top: 4rem; /* Margines na górze */
+    background-color: rgb(235, 235, 238); /* Białe tło */
+    color: #333; /* Kolor tekstu */
+    width: 90%; /* Kontener zajmuje 90% szerokości strony */
+    max-width: 1050px; /* Maksymalna szerokość kontenera */
+    height: 70vh; /* Kontener zajmuje 70% wysokości ekranu */
+    margin: 2rem auto; /* Wyśrodkowanie w poziomie */
+    padding: 2rem; /* Odstępy wewnętrzne */
+    box-shadow: 0 4px 8px rgba(5, 5, 5, 0.1); /* Cień dla lepszego wyglądu */
+    border-radius: 18px; /* Zaokrąglone rogi */
+    border: px solid #0078d4; /* Dodane obramowanie */
+    display: flex; /* Flexbox dla układu */
+    flex-direction: column; /* Ustawiamy układ w kolumnie */
+    z-index: 10;
+    position: relative; /* Umożliwia dodanie kwadratów w tle */
 }
 
-.home-header h1 {
+
+/* Pasek nawigacyjny - na górze strony */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%; /* Pasek zajmuje całą szerokość ekranu */
+    background-color: #3f51b5;
+    color: white;
+    padding: 0.1rem 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start; 
+    z-index: 1000; /* Upewniamy się, że pasek będzie na wierzchu */
+    box-sizing: border-box; /* Zapewnia, że padding nie powoduje przekroczenia szerokości */
+
+}
+
+.navbar-logo h2 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.navbar .navbar-links {
+    display: flex;
+    justify-content: flex-end; /* Ustalamy przycisk na prawym końcu */
+    width: 100%;
+}
+
+.navbar .navbar-links button {
+    margin-left: 1rem; /* Margines między przyciskami */
+}
+
+.logout-btn {
+    background-color: #f44336;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    max-width: 100px; /* Maksymalna szerokość przycisku */
+    white-space: nowrap; /* Zapobiega zawijaniu tekstu */
+    margin-top: 10px; 
+}
+
+.logout-btn:hover {
+    background-color: #d32f2f;
+}
+
+/* Zakładki */
+.tabs {
+    display: flex;
+    gap: 1rem; /* Odstęp między przyciskami */
+    margin-top: 2rem;
+    width: 100%;
+}
+.tab-btn {
+    align-items: center;
+    gap: 10px;
+    padding: 1rem 2rem;
+    background-color: #5c6bc0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    width: 90%; /* Rozszerzamy przycisk */
+    max-width: 300px; /* Maksymalna szerokość */
+}
+
+
+.tab-btn:hover {
+    transform: translateX(10px); /* Animacja przesunięcia w prawo */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    background-color: #3949ab;
+}
+
+.icon-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.icon {
+    width: 24px;
+    height: 24px;
+    fill: white;
+    transition: transform 0.3s ease-in-out;
+}
+
+.tab-btn:hover .icon {
+    transform: rotate(20deg) scale(1.2); /* Ikona lekko obraca się i powiększa */
+}
+
+
+.tab-text {
+    font-weight: bold;
+    color: white;
+    transition: color 0.3s ease-in-out;
+}
+
+.tab-btn:hover .tab-text {
+    color: #f8f9fa;
+}
+
+
+/* Główna zawartość */
+.content {
+    text-align: center;
+    margin-top: 1rem; /* Dodatkowy margines, aby treść nie była za blisko górnej zakładki */
+}
+
+.content h3 {
     font-size: 2rem;
-    color: #333;
     margin-bottom: 1rem;
 }
 
-.home-header p {
+.content p {
     font-size: 1.2rem;
     color: #555;
-    margin-bottom: 2rem;
 }
 
-.home-actions {
-    margin-top: 1rem;
-}
-
-.logout-button {
-    background-color: #f44336;
-    color: #fff;
-    border: none;
-    padding: 0.8rem 1.5rem;
+.square {
+    position: absolute;
+    background-color: rgba(255, 255, 255, 0.7);
+    animation: fall 5s infinite linear, rotate 5s infinite linear; 
     border-radius: 5px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
 }
 
-.logout-button:hover {
-    background-color: #d32f2f;
+/* Animacja spadających kwadratów */
+@keyframes fall {
+    0% {
+        top: -20px; /* Kwadrat zaczyna na górze */
+    }
+    100% {
+        top: 100vh; /* Kwadrat opada na dół ekranu */
+    }
+}
+
+/* Animacja obrotu */
+@keyframes rotate {
+    0% {
+        transform: rotate(0deg); /* Na początku kwadrat nie jest obrócony */
+    }
+    100% {
+        transform: rotate(360deg); /* Na końcu kwadrat zrobi pełen obrót */
+    }
 }

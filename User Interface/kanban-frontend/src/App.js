@@ -1,11 +1,11 @@
-// src/App.js
 import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import Register from "./pages/Register/Register";
 import Login from "./pages/Login/Login";
 import Home from "./pages/Home/Home";
+import CreateBoard from "./pages/CreateBoard/CreateBoard"; // Importowanie strony do tworzenia tablicy
 import SquaresBackground from "./components/SquaresBackground"; // Importujemy komponent kwadratów
-
+import BoardsList from "./pages/BoardsList/BoardsList";
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -40,6 +40,16 @@ const App = () => {
                 <Route 
                     path="/home" 
                     element={isAuthenticated ? <Home /> : <Navigate to="/login" />} 
+                />
+
+                {/* Strona do tworzenia tablicy, dostępna tylko po zalogowaniu */}
+                <Route 
+                    path="/create-board" 
+                    element={isAuthenticated ? <CreateBoard /> : <Navigate to="/login" />} 
+                />
+                <Route
+                    path="/boards-list"
+                    element={isAuthenticated ? <BoardsList /> : <Navigate to="/login" />}
                 />
             </Routes>
         </Router>

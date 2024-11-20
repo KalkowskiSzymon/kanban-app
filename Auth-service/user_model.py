@@ -1,6 +1,6 @@
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
-import jwt
+from authlib.jose import JsonWebToken
 import datetime
 import base64
 import os
@@ -8,7 +8,7 @@ import os
 class UserModel:
     def __init__(self, db_uri):
         """
-        Initializes the UserModel with a MongoDB client and bcrypt.
+        Initializes the UserModel with a MongoDB client, bcrypt, and JWT handler.
 
         :param db_uri: URI of the MongoDB database.
         """
@@ -16,6 +16,8 @@ class UserModel:
         self.db = self.client['kanban']
         self.users_collection = self.db['users']
         self.bcrypt = Bcrypt()
+        self.jwt = JsonWebToken({'alg': 'HS256'})  # Initialize Authlib JWT
+        self.secret_key = 'mysecretkey'  # Secret key for signing JWTs
 
     def register_user(self, username, password, email, role='user'):
         """
@@ -86,16 +88,26 @@ class UserModel:
         """
         Generates a JWT token containing the user's ID, role, email, and expiration time.
         
-        The token is signed with a secret key and includes an expiration time of 1 hour.
+        The token is signed with a secret key and includes an expiration time of 24 hours.
 
         :param user: A dictionary containing the user's data (including ID, role, email).
         :return: A JWT token as a string.
         """
-        expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=1)
-        token = jwt.encode({
+        expiration_time = datetime.datetime.utcnow() + datetime.timedelta(hours=24)  # Zmienione na 24 godziny
+        payload = {
             'user_id': str(user['_id']),
             'role': user['role'],  # Including the user's role in the token
             'email': user['email'],  # Including the user's email in the token
-            'exp': expiration_time  # Set the expiration time for the token
-        }, 'mysecretkey', algorithm='HS256')
-        return token
+            'exp': int(expiration_time.timestamp())  # Set the expiration time for the token as UNIX timestamp
+        }
+
+        # Secret key for signing the token (must be a string)
+        secret_key = self.secret_key  # Ensure this is set correctly elsewhere in the class
+
+        # Create a JsonWebToken object specifying supported algorithms
+        jwt = JsonWebToken(algorithms=['HS256'])
+
+        # Encoding the token with the secret key
+        token = jwt.encode({'alg': 'HS256'}, payload, secret_key)
+        
+        return token.decode('utf-8')  # Return the token as a string
