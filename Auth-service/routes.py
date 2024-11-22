@@ -1,6 +1,36 @@
 from flask import jsonify, request
 from user_model import UserModel
+from functools import wraps
+from utils import decode_token
 import re
+from bson import ObjectId
+
+def token_required(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        token = None
+        
+        # Sprawdzamy, czy token jest w nagłówku Authorization
+        if 'Authorization' in request.headers:
+            token = request.headers['Authorization'].replace('Bearer ', '')
+        
+        if not token:
+            return jsonify({'error': 'Token is missing!'}), 401
+        
+        # Dekodowanie tokenu
+        payload = decode_token(token)
+        if not payload:
+            return jsonify({'error': 'Invalid or expired token'}), 403
+        
+        
+        # Dodajemy user_id do requesta
+        request.user_id = payload.get('user_id')
+        return f(*args, **kwargs)
+
+    return decorated_function
+
+
+
 
 def register_routes(app):
     """
@@ -71,3 +101,53 @@ def register_routes(app):
             return jsonify({'error': 'Invalid credentials'}), 401
         
         return jsonify({'token': token}), 200
+
+    @app.route('/change-password', methods=['PUT'])
+    @token_required
+    def change_password():
+        """
+        Trasa do aktualizacji hasła użytkownika.
+    
+        Oczekuje JSON z polami: user_id, current_password, new_password.
+        """
+        data = request.get_json()
+        user_id = request.user_id
+        print(f"Received data: {data}") 
+
+        if not data or 'currentPassword' not in data or 'newPassword' not in data:
+            return jsonify({'message': 'Brak wymaganych danych.'}), 400
+
+        
+        current_password = data['currentPassword']
+        new_password = data['newPassword']
+
+        change_password = user_model.change_password(user_id, current_password, new_password)
+
+        if change_password:
+            return jsonify({'message': 'Hasło zostało pomyślnie zaktualizowane.'}), 200
+        else:
+            return jsonify({'message': 'Nie udało się zaktualizować hasła. Sprawdź poprawność danych.'}), 400
+   
+    @app.route('/update-profile', methods=['PUT'])
+    @token_required
+    def update_profile():
+        """
+        Aktualizuje profil użytkownika na podstawie przesłanych danych JSON.
+        """
+        data = request.get_json()
+        user_id = request.user_id  # Pobierz ID użytkownika z tokenu
+
+        if not data or 'username' not in data or 'email' not in data:
+            return jsonify({'message': 'Brak wymaganych danych.'}), 400
+
+        new_username = data['username']
+        new_email = data['email']
+
+        # Wywołanie logiki z user_model do sprawdzenia i aktualizacji danych
+        change_data = user_model.update_user_details(user_id, new_username, new_email)
+
+        # Zwrócenie odpowiedzi na podstawie wyniku metody update_user_details
+        if change_data['success']:
+            return jsonify({'message': change_data['message']}), 200
+        else:
+            return jsonify({'message': change_data['message']}), 400

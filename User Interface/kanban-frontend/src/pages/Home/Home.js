@@ -9,7 +9,7 @@ const Home = () => {
     const navigate = useNavigate();
     const [successMessage, setSuccessMessage] = useState(""); // Stan przechowujący komunikat o sukcesie
     const [showToast, setShowToast] = useState(false); // Stan do kontrolowania widoczności toasta
-
+    const [userName, setUserName] = useState("");
     // Obsługuje wylogowanie użytkownika
     const handleLogout = () => {
         localStorage.removeItem("token"); // Usuń token z lokalStorage
@@ -33,6 +33,16 @@ const Home = () => {
         }
     }, []);
 
+    useEffect(() => {
+        // Pobierz dane użytkownika z localStorage
+        const savedUser = JSON.parse(localStorage.getItem("user"));  // Zmieniamy to, aby odczytać obiekt
+        if (savedUser && savedUser.username) {
+            setUserName(savedUser.username);  // Ustawiamy tylko username
+        } else {
+            setUserName("Użytkownik"); // Domyślna nazwa, jeśli brak danych
+        }
+    }, []);
+
     return (
         <div className="home-container">
             <SquaresBackground />
@@ -43,14 +53,14 @@ const Home = () => {
                     <h3>KanBan</h3>
                 </div>
                 <div className="navbar-links">
-                    <button className="logout-btn" onClick={handleLogout}>
+                    <button className="btn btn-logout" onClick={handleLogout}>
                         Wyloguj
                     </button>
                 </div>
             </nav>
 
             <div className="content">
-                <h3>Witaj w systemie zarządzania zadaniami!</h3>
+                <h3>Witaj  {userName} w systemie zarządzania zadaniami!</h3>
                 <p>Wybierz zakładkę, aby rozpocząć.</p>
             </div>
 

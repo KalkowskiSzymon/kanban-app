@@ -10,10 +10,14 @@ class BoardModel:
         """
         Pobieranie wszystkich tablic dla danego użytkownika
         """
-        boards = list(self.boards_collection.find({'user_id': user_id}))
-        for board in boards:
-            board['_id'] = str(board['_id'])  # Konwertujemy ObjectId na string
-        return boards
+        try:
+            boards = list(self.boards_collection.find({'user_id': user_id}))
+            for board in boards:
+                board['_id'] = str(board['_id'])  # Konwertujemy ObjectId na string
+            return boards
+        except Exception as e:
+            print(f"Error fetching boards: {e}")
+            raise
     
     def create_board(self, user_id, title, description, color):
         """

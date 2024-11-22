@@ -26,11 +26,11 @@ const CreateBoard = () => {
         }
 
         try {
-            const apiUrl = process.env.REACT_APP_API_TASK_URL;
+            const apiUrl = process.env.REACT_APP_API_CREATE_BOARD_URL;
 
             // Wysyłanie danych na backend za pomocą axios, z nagłówkiem Authorization
             const response = await axios.post(
-                `${apiUrl}/create-board`,
+                `${apiUrl}`,
                 {
                     title,
                     description,
@@ -91,7 +91,7 @@ const CreateBoard = () => {
                     />
                 </div>
 
-                <div className="form-group">
+                <div class="color-picker-container">
                     <label htmlFor="color">Kolor tablicy:</label>
                     <input
                         type="color"
@@ -103,6 +103,9 @@ const CreateBoard = () => {
 
                 <button type="submit" className="create-board-btn" disabled={loading}>
                     {loading ? "Tworzenie..." : "Utwórz tablicę"}
+                </button>
+                <button onClick={() => navigate("/")} className="cancel-btn">
+                    Anuluj
                 </button>
             </form>
 

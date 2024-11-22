@@ -1,0 +1,87 @@
+.profile-container {
+    padding: 20px;
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    background-color: #ffffff; /* Jasne tło */
+    border-radius: 12px; /* Większe zaokrąglenie */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Większy cień dla głębi */
+    font-family: "Verdana", sans-serif; /* Lepsza czcionka */
+}
+
+.profile-header {
+    text-align: center;
+    font-size: 2rem; /* Większa czcionka dla nagłówka */
+    color: #3f51b5; /* Kolor nagłówka */
+    margin-bottom: 20px; /* Odstęp pod nagłówkiem */
+}
+
+.profile-details {
+    margin-top: 20px;
+    color: #333; /* Ciemniejszy tekst dla lepszej czytelności */
+}
+
+.profile-field {
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+}
+
+.profile-field strong {
+    display: inline-block;
+    width: 180px; /* Zwiększenie szerokości etykiet */
+    color: #303f9f; /* Kolor etykiety */
+    font-weight: bold;
+}
+
+.profile-field span {
+    font-size: 1.1rem; /* Zwiększenie rozmiaru tekstu */
+    color: #666; /* Kolor dla wartości */
+}
+
+.profile-actions {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    gap: 10px; /* Odstęp między przyciskami */
+}
+
+.profile-container button {
+    padding: 12px 24px;
+    background: linear-gradient(to right, #3f51b5, #5c6bc0);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s, transform 0.2s ease-in-out;
+}
+
+.profile-container button:hover {
+    background-color: #303f9f; /* Kolor przycisku po najechaniu */
+    transform: translateY(-2px); /* Subtelne uniesienie przycisku */
+}
+
+button:active {
+    transform: translateY(0); /* Przywrócenie pozycji po kliknięciu */
+}
+
+.success-message {
+    color: green;
+    background-color: #e6ffe6;
+    border: 1px solid green;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.error-message {
+    color: red;
+    background-color: #ffe6e6;
+    border: 1px solid red;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+

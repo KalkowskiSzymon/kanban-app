@@ -29,8 +29,8 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const apiUrl = process.env.REACT_APP_API_URL;
-            const response = await axios.post(`${apiUrl}/login`, {
+            const apiUrl = process.env.REACT_APP_API_LOGIN_URL;
+            const response = await axios.post(`${apiUrl}`, {
                 username,
                 password,
             });
@@ -45,6 +45,7 @@ const Login = () => {
                 userId: decodedToken.user_id,
                 username: decodedToken.username,
                 role: decodedToken.role,
+                email: decodedToken.email
             };
             localStorage.setItem("user", JSON.stringify(user));  // Zapisanie danych użytkownika w localStorage
 

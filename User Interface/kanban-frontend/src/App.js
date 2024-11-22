@@ -6,6 +6,7 @@ import Home from "./pages/Home/Home";
 import CreateBoard from "./pages/CreateBoard/CreateBoard"; // Importowanie strony do tworzenia tablicy
 import SquaresBackground from "./components/SquaresBackground"; // Importujemy komponent kwadratów
 import BoardsList from "./pages/BoardsList/BoardsList"; // Import strony z listą tablic
+import Profile from "./pages/Profile/Profile";
 
 const App = () => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -54,6 +55,10 @@ const App = () => {
                     path="/boards-list" 
                     element={isAuthenticated ? <><SquaresBackground /> <BoardsList /> </> : <Navigate to="/login" />} 
                 />
+                <Route
+                    path="/profile"
+                    element={isAuthenticated ? <><SquaresBackground /> <Profile /> </> : <Navigate to="/login" />}
+                />    
             </Routes>
         </Router>
     );

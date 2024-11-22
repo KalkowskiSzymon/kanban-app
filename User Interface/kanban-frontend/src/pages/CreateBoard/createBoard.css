@@ -1,66 +1,140 @@
-/* src/pages/CreateBoard/createBoard.css */
-
 .create-board-wrapper {
     display: flex;
-    justify-content: center; /* Wyśrodkowanie poziome */
-    align-items: center;     /* Wyśrodkowanie pionowe */
-    height: 100vh;           /* Wysokość 100% wysokości okna przeglądarki */
-    width: 100%;             /* Szerokość 100% */
-    padding: 0 20px;         /* Dodatkowe paddingi, jeśli chcesz mieć przestrzeń z boków */
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100%;
+    padding: 0 20px;
+    background: linear-gradient(to right, #e3f2fd, #f4f7fc); /* Delikatny gradient tła */
+    
 }
 
 .create-board-container {
-    width: 100%;             /* Przestrzeń do wykorzystania w kontenerze */
-    max-width: 800px;        /* Maksymalna szerokość */
-    padding: 20px;
-    background-color: #f4f7fc;
-    border-radius: 8px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    margin-right: 200px;
+    width: 100%;
+    max-width: 750px;
+    padding: 30px;
+    background: #ffffff; /* Czyste, jasne tło */
+    border-radius: 12px; /* Większe zaokrąglenie */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Mocniejszy cień dla głębi */
     z-index: 10;
-    position: relative; /* Umożliwia dodanie kwadratów w tle */
-    
+    position: relative;
+    font-family: "Verdana", sans-serif;
 }
+
 .create-board-container h2 {
     text-align: center;
-    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #3f51b5;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px; /* Rozstawienie liter */
+    border-bottom: 2px solid #e3f2fd; /* Subtelna linia pod tytułem */
+    padding-bottom: 10px;
 }
 
 .create-board-form .form-group {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column; /* Uporządkowany układ w kolumnie */
 }
 
 .create-board-form .form-group label {
-    display: block;
     font-weight: bold;
-    margin-bottom: 5px;
+    margin-bottom: 10px;
+    font-size: 1rem;
+    color: #303f9f;
 }
 
 .create-board-form input[type="text"],
 .create-board-form textarea,
 .create-board-form input[type="color"] {
     width: 100%;
-    padding: px;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
+    background: #f4f7fc; /* Jasnoszare tło */
+    font-size: 1rem;
+    color: #333;
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.create-board-form input[type="text"]:focus,
+.create-board-form textarea:focus,
+.create-board-form input[type="color"]:focus {
+    border-color: #3f51b5;
+    box-shadow: 0 0 8px rgba(63, 81, 181, 0.5); /* Podświetlenie aktywnego pola */
+    outline: none;
 }
 
 .create-board-form textarea {
-    height: 100px;
+    width: 100%;
+    padding: 12px; /* Takie samo padding jak inne pola */
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: #f4f7fc; /* Spójne tło */
+    font-size: 1rem;
+    color: #333;
+    height: 120px; /* Dopasowana wysokość */
+    box-sizing: border-box; /* Upewniamy się, że padding nie zmienia rozmiaru elementu */
+    transition: box-shadow 0.3s ease, border-color 0.3s ease;
+    resize: none; /* Usunięcie opcji zmiany rozmiaru, jeśli to niepożądane */
 }
+
 
 .create-board-form button {
     width: 100%;
-    padding: 10px;
-    background-color: #3f51b5;
+    padding: 12px;
+    background: linear-gradient(to right, #3f51b5, #5c6bc0); /* Gradient przycisku */
     color: white;
     border: none;
-    border-radius: 4px;
-    font-size: 16px;
+    border-radius: 6px;
+    font-size: 1.1rem;
     cursor: pointer;
+    transition: transform 0.2s, box-shadow 0.3s ease-in-out;
 }
 
 .create-board-form button:hover {
-    background-color: #303f9f;
+    background: #303f9f;
+    transform: translateY(-2px); /* Subtelne uniesienie przycisku */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
+.create-board-form button:active {
+    transform: translateY(0); /* Przywrócenie pozycji po kliknięciu */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.color-picker-container {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Odstęp między elementami */
+    margin-top: 10px;
+}
+
+.color-picker-container label {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #303f9f;
+}
+
+.color-picker-container input[type="color"] {
+    width: 40px;
+    height: 40px;
+    border: none;
+    border-radius: 50%; /* Okrągłe pole */
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.3s ease-in-out;
+}
+
+.color-picker-container input[type="color"]:hover {
+    transform: scale(1.1); /* Subtelne powiększenie przy najechaniu */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.color-picker-container input[type="color"]:focus {
+    outline: 2px solid #3f51b5;
+}

@@ -1,53 +1,83 @@
-/* src/pages/BoardsList/boardsList.css */
-
 .boards-list-container {
     padding: 20px;
     background-color: #f4f7fc;
     border-radius: 8px;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 900px;
+    max-width: 100%; /* Usuwamy limit szerokości */
+    width: 90%; /* Zapewnia pełną szerokość */
     margin: 0 auto;
-}
-
-h2 {
-    text-align: center;
-    margin-bottom: 20px;
+    height: 100%;
+    overflow-y: scroll;
+    max-height: 650px;
+    scrollbar-width: none;
 }
 
 .boards-list {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    gap: 15px;
+    overflow: hidden;
+    justify-content: flex-start; /* Dostosowuje do lewej strony */
+    width: 100%; /* Umożliwia pełne wypełnienie przestrzeni */
 }
 
 .board-item {
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    width: 45%;
-    margin: 10px 0;
+    width: 180px; /* Stała szerokość tablicy */
+    height: 180px; /* Stała wysokość */
+    margin: 10px; /* Odstęp między tablicami */
     padding: 15px;
     cursor: pointer;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.board-item:hover {
-    transform: scale(1.05);
+@media (max-width: 1024px) {
+    .board-item {
+        width: 150px; /* Zmniejsza szerokość tablicy na tabletach */
+    }
 }
 
-.board-item h3 {
-    margin: 0;
-    font-size: 1.2rem;
-    font-weight: bold;
+@media (max-width: 768px) {
+    .boards-list {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .board-item {
+        width: 90%; /* Zmniejsza szerokość na mniejszych ekranach */
+        height: auto;
+    }
 }
 
-.board-item p {
-    font-size: 1rem;
-    color: #555;
+@media (max-width: 480px) {
+    .boards-list-container {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 1.5rem;
+    }
+
+    .board-item {
+        width: 100%;
+    }
+}
+h2 {
+    text-align: center; /* Wyśrodkowuje tekst */
+    margin-bottom: 20px;
+    font-size: 1.8rem;
+    color: #4a4a4a;
 }
 
 .board-item-color {
-    width: 100%;
-    height: 5px;
-    margin-top: 10px;
+    width: 100px;  /* Określ szerokość, aby był widoczny */
+    height: 50px;  /* Określ wysokość, aby był widoczny */
+    border-radius: 5px;  /* Opcjonalnie, aby mieć zaokrąglone rogi */
+    margin-top: 10px;  /* Dystans od innych elementów, może być dowolny */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);  /* Opcjonalny cień dla lepszego efektu */
 }

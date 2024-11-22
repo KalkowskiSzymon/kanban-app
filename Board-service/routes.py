@@ -37,7 +37,9 @@ def register_routes(app):
     def create_board():
         try:
             data = request.get_json()
-            user_id = request.user_id  # Pobieramy userId z requesta (po weryfikacji tokenu)
+
+            user_id = request.user_id
+
             title = data.get('title')
             description = data.get('description')
             color = data.get('color')
@@ -51,4 +53,18 @@ def register_routes(app):
             return jsonify({"message": "Tablica została stworzona", "board": board}), 201
 
         except Exception as e:
+            return jsonify({"error": str(e)}), 500
+        
+    @app.route('/board-list', methods=['GET'])
+    @token_required
+    def get_board():
+        try:
+            user_id = request.user_id  # Pobierz user_id z tokena
+            boards = BoardModel().get_all_boards(user_id)  # Wywołanie metody pobierającej tablice
+            if boards:  # Jeśli tablice istnieją
+                return jsonify({"boards": boards}), 200
+            else:
+                return jsonify({"message": "No boards found."}), 404
+        except Exception as e:
+            print(f"Error in get_board: {e}")
             return jsonify({"error": str(e)}), 500

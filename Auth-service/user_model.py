@@ -1,10 +1,12 @@
 from pymongo import MongoClient
 from flask_bcrypt import Bcrypt
 from authlib.jose import JsonWebToken
+from db import get_db_connection
 from config import Config
 import datetime
 import base64
 import os
+from bson import ObjectId
 
 class UserModel:
     def __init__(self, db_uri):
@@ -13,8 +15,8 @@ class UserModel:
 
         :param db_uri: URI of the MongoDB database.
         """
-        self.client = MongoClient(db_uri)
-        self.db = self.client['kanban']
+
+        self.db = get_db_connection()
         self.users_collection = self.db['users']
         self.bcrypt = Bcrypt()
         self.jwt = JsonWebToken({'alg': 'HS256'})  # Initialize Authlib JWT
@@ -98,7 +100,8 @@ class UserModel:
         payload = {
             'user_id': str(user['_id']),
             'role': user['role'],  # Including the user's role in the token
-            'email': user['email'],  # Including the user's email in the token
+            'email': user['email'],
+            'username': user['username'],  
             'exp': int(expiration_time.timestamp())  # Set the expiration time for the token as UNIX timestamp
         }
 
@@ -112,3 +115,73 @@ class UserModel:
         token = jwt.encode({'alg': 'HS256'}, payload, secret_key)
         
         return token.decode('utf-8')  # Return the token as a string
+    
+    def change_password(self, user_id, current_password, new_password):
+        """
+        Aktualizuje hasło użytkownika, sprawdzając najpierw, czy obecne hasło jest poprawne.
+        
+        :param user_id: ID użytkownika, którego hasło ma zostać zaktualizowane.
+        :param current_password: Obecne hasło użytkownika.
+        :param new_password: Nowe hasło, które użytkownik chce ustawić.
+        :return: True, jeśli hasło zostało zaktualizowane pomyślnie, False, jeśli nie.
+        """
+        # Znajdź użytkownika po ID
+        user = self.users_collection.find_one({'_id': ObjectId(user_id)})
+
+        if not user:
+            return False  # Użytkownik nie został znaleziony
+
+        # Zweryfikuj, czy obecne hasło jest poprawne
+        salt = user.get('salt', '')
+        salted_password = current_password + salt  # Dodaj sól do wprowadzonego hasła
+        if not self.bcrypt.check_password_hash(user['password'], salted_password):
+            return False  # Błędne obecne hasło
+
+        # Zaktualizuj hasło na nowe
+        new_salt = base64.b64encode(os.urandom(16)).decode('utf-8')  # Nowa sól
+        salted_new_password = new_password + new_salt  # Dodaj sól do nowego hasła
+        hashed_new_password = self.bcrypt.generate_password_hash(salted_new_password).decode('utf-8')  # Zasól i zahashuj nowe hasło
+
+        # Zaktualizuj użytkownika w bazie danych
+        result = self.users_collection.update_one(
+            {'_id': ObjectId(user_id)},  # Znajdź użytkownika po ID
+            {'$set': {'password': hashed_new_password, 'salt': new_salt}}  # Zaktualizuj hasło i sól
+        )
+
+        return result.modified_count > 0  # Jeśli liczba zmodyfikowanych dokumentów > 0, hasło zostało zaktualizowane
+
+    def update_user_details(self, user_id, new_username, new_email):
+        """
+        Sprawdza, czy nowe dane użytkownika są różne od aktualnych, a następnie aktualizuje dane.
+        """
+        # Pobierz aktualne dane użytkownika
+        current_user = self.users_collection.find_one({'_id': ObjectId(user_id)})
+        
+        if not current_user:
+            return {'success': False, 'message': 'Użytkownik nie znaleziony.'}
+
+        current_username = current_user.get('username')
+        current_email = current_user.get('email')
+
+        # Sprawdź, czy dane nie zmieniają się
+        if new_username == current_username and new_email == current_email:
+            return {'success': False, 'message': 'Nowe dane są identyczne z obecnymi. Brak zmian.'}
+
+        # Sprawdź, czy nowa nazwa użytkownika jest już zajęta
+        if self.users_collection.find_one({'username': new_username, '_id': {'$ne': ObjectId(user_id)}}):
+            return {'success': False, 'message': 'Nazwa użytkownika jest już zajęta!'}
+
+        # Sprawdź, czy nowy e-mail jest już zajęty
+        if self.users_collection.find_one({'email': new_email, '_id': {'$ne': ObjectId(user_id)}}):
+            return {'success': False, 'message': 'Adres e-mail jest już zajęty!'}
+
+        # Zaktualizuj dane użytkownika
+        result = self.users_collection.update_one(
+            {'_id': ObjectId(user_id)},  # Znajdź użytkownika po ID
+            {'$set': {'username': new_username, 'email': new_email}}  # Zaktualizuj dane
+        )
+
+        if result.modified_count > 0:
+            return {'success': True, 'message': 'Dane zostały pomyślnie zaktualizowane.'}
+
+        return {'success': False, 'message': 'Nie udało się zaktualizować danych.'}
